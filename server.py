@@ -5,26 +5,25 @@
 # Import Flask, render_template, request from the flask pramework package
 from flask import Flask, render_template, request
 # Import the sentiment_analyzer function from the package created
-from EmotionDetection.emotion_detector import sentiment_analyzer
+from EmotionDetection.emotion_detector import emotion_analyzer
 
 #Initiate the flask app
-app = Flask("Sentiment Analyzer")
+app = Flask("Emotion Analyzer")
 
-@app.route("/sentimentAnalyzer")
+@app.route("/emotionAnalyzer")
 def sent_analyzer():
     ''' This code receives the text from the HTML interface and 
-        runs sentiment analysis over it using sentiment_analysis()
+        runs emotion analysis over it using sentiment_analysis()
         function. The output returned shows the label and its confidence 
         score for the provided text.
     '''
     text_to_analyze = request.args.get('textToAnalyze')
-    response = sentiment_analyzer(text_to_analyze)
-    label = response['label']
-    score = response['score']
+    response = emotion_analyzer(text_to_analyze)
+    label = response['dominant_emotion']
 
     if label is None:
         return "Invalid input! Try again."
-    return f"The given text has been identified as {label.split('_')} with a score of {score}."
+    return f"The given text has been identified as {label}."
 
 
 @app.route("/")
